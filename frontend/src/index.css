@@ -1,0 +1,42 @@
+@import "tailwindcss";
+
+@theme {
+  --color-brand-bg: #0a0710;
+  --color-brand-primary: #f2cf76;
+  --color-brand-primary-dark: #dca73b;
+  --color-brand-secondary: #9b82ff;
+  --color-brand-gray: #a19db3;
+  --color-brand-light: #ffffff;
+  
+  --font-sans: 'Inter', -apple-system, sans-serif;
+  --font-serif: 'Inter', sans-serif; /* Aether uses sans-serif for headers too */
+}
+
+@layer base {
+  body {
+    @apply bg-brand-bg text-brand-light font-sans antialiased overflow-x-hidden;
+  }
+}
+
+.text-gradient {
+  @apply bg-clip-text text-transparent bg-gradient-to-r from-[#b485ff] via-brand-light to-[#f2cf76];
+}
+
+/* Starry background animation classes */
+.stars-bg {
+  background-image: 
+    radial-gradient(1px 1px at 20px 30px, #ffffff, rgba(0,0,0,0)),
+    radial-gradient(1px 1px at 40px 70px, rgba(255,255,255,0.8), rgba(0,0,0,0)),
+    radial-gradient(1px 1px at 50px 160px, rgba(170, 59, 255, 0.4), rgba(0,0,0,0)),
+    radial-gradient(1.5px 1.5px at 90px 40px, rgba(255,255,255,1), rgba(0,0,0,0)),
+    radial-gradient(2px 2px at 130px 80px, rgba(255,255,255,0.7), rgba(0,0,0,0)),
+    radial-gradient(1px 1px at 160px 120px, rgba(170, 59, 255, 0.6), rgba(0,0,0,0));
+  background-repeat: repeat;
+  background-size: 200px 200px;
+  animation: shine 4s infinite alternate;
+}
+
+@keyframes shine {
+  0% { opacity: 0.8; }
+  100% { opacity: 1; }
+}
