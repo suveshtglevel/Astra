@@ -100,7 +100,7 @@ function FormSection({ onComplete }) {
         className="max-w-xl w-full bg-[#0d0a14] p-8 md:p-12 rounded-3xl border border-white/10 shadow-2xl relative overflow-hidden"
       >
         <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-brand-primary to-brand-secondary"></div>
-        <h2 className="text-3xl font-serif text-brand-light mb-2">Tell Kloe who you are</h2>
+        <h2 className="text-3xl font-serif text-brand-light mb-2">Tell Klue who you are</h2>
         <p className="text-brand-gray text-sm mb-8">We need your exact birth details to calculate your planetary alignments.</p>
         
         <form onSubmit={handleSubmit} className="space-y-6">
@@ -184,7 +184,7 @@ function LoadingSection({ onDone }) {
     <section className="min-h-screen flex flex-col items-center justify-center px-6 relative">
       <div className="max-w-md w-full flex flex-col items-center text-center">
         <Sparkles className="text-brand-secondary h-12 w-12 mb-6 animate-pulse" />
-        <h2 className="text-2xl font-serif text-brand-light mb-12">Kloe is reading your chart...</h2>
+        <h2 className="text-2xl font-serif text-brand-light mb-12">Klue is reading your chart...</h2>
         
         <div className="w-full h-2 bg-white/10 rounded-full overflow-hidden mb-6">
           <div 

@@ -1,4 +1,5 @@
 import React from 'react';
+import { motion } from 'framer-motion';
 
 export default function CelestialChartFull({ className = '' }) {
   return (
@@ -21,7 +22,12 @@ export default function CelestialChartFull({ className = '' }) {
             </feMerge>
           </filter>
         </defs>
-        <circle cx="220" cy="220" r="210" fill="url(#bcbgGlow)"></circle>
+        <motion.g
+          animate={{ rotate: 360 }}
+          transition={{ repeat: Infinity, duration: 180, ease: "linear" }}
+          style={{ transformOrigin: "220px 220px" }}
+        >
+          <circle cx="220" cy="220" r="210" fill="url(#bcbgGlow)"></circle>
         <circle cx="220" cy="220" r="190" fill="none" stroke="rgba(255,255,255,0.07)" strokeWidth="0.5"></circle>
         <circle cx="220" cy="220" r="148" fill="rgba(255,255,255,0.015)" stroke="rgba(255,255,255,0.07)" strokeWidth="0.5"></circle>
         <circle cx="220" cy="220" r="92" fill="url(#bccoreGrad)" stroke="rgba(231,195,106,0.18)" strokeWidth="1"></circle>
@@ -68,6 +74,8 @@ export default function CelestialChartFull({ className = '' }) {
         <g style={{ cursor: 'pointer' }}><circle cx="236.14" cy="105.12" r="4" fill="rgba(231,195,106,0.7)" filter="url(#bcplanetGlow)"></circle><line x1="236.14" y1="105.12" x2="220" y2="220" stroke="rgba(231,195,106,0.07)" strokeWidth="0.5" strokeDasharray="2 5"></line><text x="239.2" y="83.34" textAnchor="middle" dominantBaseline="middle" fill="rgba(231,195,106,0.55)" fontSize="9" fontFamily="serif">♂</text></g>
         <g style={{ cursor: 'pointer' }}><circle cx="104.01" cy="217.97" r="4" fill="rgba(231,195,106,0.7)" filter="url(#bcplanetGlow)"></circle><line x1="104.01" y1="217.97" x2="220" y2="220" stroke="rgba(231,195,106,0.07)" strokeWidth="0.5" strokeDasharray="2 5"></line><text x="82.02" y="217.59" textAnchor="middle" dominantBaseline="middle" fill="rgba(231,195,106,0.55)" fontSize="9" fontFamily="serif">♃</text></g>
         <g style={{ cursor: 'pointer' }}><circle cx="112.44" cy="176.54" r="4" fill="rgba(231,195,106,0.7)" filter="url(#bcplanetGlow)"></circle><line x1="112.44" y1="176.54" x2="220" y2="220" stroke="rgba(231,195,106,0.07)" strokeWidth="0.5" strokeDasharray="2 5"></line><text x="92.04" y="168.3" textAnchor="middle" dominantBaseline="middle" fill="rgba(231,195,106,0.55)" fontSize="9" fontFamily="serif">♄</text></g>
+
+        </motion.g>
 
         {/* Center Star & Label */}
         <text x="220" y="214" textAnchor="middle" dominantBaseline="middle" fill="rgba(231,195,106,0.35)" fontSize="24" fontFamily="serif">✦</text>

@@ -13,7 +13,7 @@ export default function Header() {
     <header className="w-full z-50 p-4 sm:px-8 flex items-center justify-between">
       <Link to="/" className="flex items-center gap-2 max-w-fit">
         <Sparkles className="text-brand-secondary h-6 w-6" />
-        <span className="font-serif text-xl font-bold tracking-wider text-brand-light">Astra / Kloe</span>
+        <span className="font-serif text-xl font-bold tracking-wider text-brand-light">Astra / Klue</span>
       </Link>
 
       <nav className="hidden md:flex gap-6 items-center text-sm font-medium">

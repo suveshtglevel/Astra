@@ -1,20 +1,21 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 export default function Footer() {
   return (
-    <footer className="relative z-10 pt-16 pb-10 px-8 border-t" style={{ background: 'rgba(5, 6, 11, 0.8)', borderColor: 'rgba(255, 255, 255, 0.05)' }}>
+    <footer className="relative z-10 pt-16 pb-12 px-8 border-t text-sm font-sans" style={{ background: 'rgba(5, 6, 11, 0.9)', borderColor: 'rgba(255, 255, 255, 0.05)' }}>
       <div className="max-w-7xl mx-auto">
         <div className="flex flex-col md:flex-row justify-between items-start gap-12 mb-16">
           <div className="max-w-sm">
-            <a href="#" className="flex items-center gap-2.5 group mb-6" aria-label="Aether — go to homepage">
+            <Link to="/" className="flex items-center gap-2.5 group mb-6" aria-label="Klue — go to homepage">
               <div className="relative w-7 h-7 flex items-center justify-center">
                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-[#E7C36A]" style={{ color: 'rgba(231,195,106,0.5)' }}>
                   <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
                 </svg>
               </div>
-              <span className="text-white/90 uppercase tracking-widest" style={{ fontFamily: '"Space Grotesk", sans-serif', fontWeight: 700, fontSize: '15px', letterSpacing: '0.12em' }}>Aether</span>
-            </a>
-            <p className="text-white/40 leading-relaxed mb-8" style={{ fontFamily: 'Inter, sans-serif', fontSize: '13px' }}>
+              <span className="text-white/90 uppercase font-serif tracking-widest font-bold text-sm">Klue</span>
+            </Link>
+            <p className="text-white/40 leading-relaxed mb-6 font-sans">
               Decoding the cosmic currents to help you navigate your earthly experience with absolute clarity.
             </p>
             <div className="flex items-center gap-4">
@@ -39,34 +40,44 @@ export default function Footer() {
             </div>
           </div>
           
-          <div className="flex gap-16 md:gap-24">
+          <div className="flex gap-12 md:gap-20">
             <div>
-              <h4 className="text-white/22 uppercase mb-6" style={{ fontFamily: '"IBM Plex Mono", monospace', fontSize: '10px', letterSpacing: '0.15em' }}>Platform</h4>
+              <h4 className="text-[#E7C36A]/50 text-xs uppercase mb-6 tracking-[0.2em] font-serif">Platform</h4>
               <ul className="space-y-4">
-                <li><a href="#" className="text-white/50 hover:text-white transition-colors text-sm" style={{ fontFamily: 'Inter, sans-serif' }}>Horoscopes</a></li>
-                <li><a href="#" className="text-white/50 hover:text-white transition-colors text-sm" style={{ fontFamily: 'Inter, sans-serif' }}>Birth Charts</a></li>
-                <li><a href="#" className="text-white/50 hover:text-white transition-colors text-sm" style={{ fontFamily: 'Inter, sans-serif' }}>Synastry</a></li>
-                <li><a href="#" className="text-white/50 hover:text-white transition-colors text-sm" style={{ fontFamily: 'Inter, sans-serif' }}>Premium Tier</a></li>
+                <li><Link to="/" className="text-white/50 hover:text-[#E7C36A] transition-colors">Horoscopes</Link></li>
+                <li><Link to="/charts" className="text-white/50 hover:text-[#E7C36A] transition-colors">Birth Charts</Link></li>
+                <li><Link to="/compatibility" className="text-white/50 hover:text-[#E7C36A] transition-colors">Synastry</Link></li>
+                <li><Link to="/premium" className="text-white/50 hover:text-[#E7C36A] transition-colors">Premium Tier</Link></li>
               </ul>
             </div>
             
             <div>
-              <h4 className="text-white/22 uppercase mb-6" style={{ fontFamily: '"IBM Plex Mono", monospace', fontSize: '10px', letterSpacing: '0.15em' }}>Company</h4>
+              <h4 className="text-[#E7C36A]/50 text-xs uppercase mb-6 tracking-[0.2em] font-serif">Company</h4>
               <ul className="space-y-4">
-                <li><a href="#" className="text-white/50 hover:text-white transition-colors text-sm" style={{ fontFamily: 'Inter, sans-serif' }}>About Us</a></li>
-                <li><a href="#" className="text-white/50 hover:text-white transition-colors text-sm" style={{ fontFamily: 'Inter, sans-serif' }}>Waitlist</a></li>
-                <li><a href="#" className="text-white/50 hover:text-white transition-colors text-sm" style={{ fontFamily: 'Inter, sans-serif' }}>Privacy Policy</a></li>
-                <li><a href="#" className="text-white/50 hover:text-white transition-colors text-sm" style={{ fontFamily: 'Inter, sans-serif' }}>Terms of Service</a></li>
+                <li><Link to="/about" className="text-white/50 hover:text-[#E7C36A] transition-colors">About Us</Link></li>
+                <li><Link to="/careers" className="text-white/50 hover:text-[#E7C36A] transition-colors">Careers</Link></li>
+                <li><Link to="/blog" className="text-white/50 hover:text-[#E7C36A] transition-colors">Blog</Link></li>
+                <li><Link to="/contact" className="text-white/50 hover:text-[#E7C36A] transition-colors">Contact</Link></li>
+              </ul>
+            </div>
+
+            <div>
+              <h4 className="text-[#E7C36A]/50 text-xs uppercase mb-6 tracking-[0.2em] font-serif">Legal</h4>
+              <ul className="space-y-4">
+                <li><Link to="/faq" className="text-white/50 hover:text-[#E7C36A] transition-colors">FAQ</Link></li>
+                <li><Link to="/privacy" className="text-white/50 hover:text-[#E7C36A] transition-colors">Privacy Policy</Link></li>
+                <li><Link to="/terms" className="text-white/50 hover:text-[#E7C36A] transition-colors">Terms of Service</Link></li>
+                <li><Link to="/pnc" className="text-white/50 hover:text-[#E7C36A] transition-colors">P&C</Link></li>
               </ul>
             </div>
           </div>
         </div>
         
         <div className="pt-8 border-t flex flex-col md:flex-row justify-between items-center gap-4" style={{ borderColor: 'rgba(255, 255, 255, 0.05)' }}>
-          <p className="text-white/30 text-xs" style={{ fontFamily: 'Inter, sans-serif' }}>© 2026 Aether. All rights reserved.</p>
+          <p className="text-white/30 text-xs">© 2026 Klue. All rights reserved.</p>
           <div className="flex items-center gap-2">
-             <span className="w-1.5 h-1.5 rounded-full bg-[#E7C36A]/50"></span>
-             <span className="text-white/30 text-xs" style={{ fontFamily: 'Inter, sans-serif' }}>Built with Celestial AI</span>
+             <span className="w-1.5 h-1.5 rounded-full bg-[#E7C36A]/50 shadow-[0_0_8px_#E7C36A]"></span>
+             <span className="text-white/30 text-xs">Built with Celestial AI</span>
           </div>
         </div>
       </div>

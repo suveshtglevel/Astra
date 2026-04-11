@@ -1,10 +1,10 @@
 import React from 'react';
-import { Mail, Lock, Sparkles, CheckCircle2 } from 'lucide-react';
+import { Mail, Lock, Sparkles, CheckCircle2, User } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
 import useSEO from '../hooks/useSEO';
 
-export default function Login() {
-  useSEO('Login');
+export default function Register() {
+  useSEO('Register');
   const navigate = useNavigate();
 
   const handleAuth = (e) => {
@@ -41,23 +41,19 @@ export default function Login() {
                 <CheckCircle2 size={18} className="text-[#E7C36A] shrink-0" />
                 25 Free Questions / Month
               </li>
-              <li className="flex items-start gap-3 text-sm text-white/70">
-                <CheckCircle2 size={18} className="text-[#E7C36A] shrink-0" />
-                Watch Ad to unlock 5 extra questions
-              </li>
             </ul>
           </div>
 
         </div>
 
-        {/* Right Side: Login Form */}
+        {/* Right Side: Register Form */}
         <div className="bg-[#0b0c10] border border-[#E7C36A]/20 rounded-3xl p-8 shadow-2xl order-1 md:order-2">
-          <h2 className="text-2xl font-serif text-white text-center mb-8">Login to Klue</h2>
+          <h2 className="text-2xl font-serif text-white text-center mb-8">Create an Account</h2>
           
           <div className="space-y-4">
             <button type="button" onClick={handleAuth} className="w-full flex items-center justify-center gap-3 bg-white text-black font-medium py-3.5 rounded-xl hover:bg-gray-100 transition-colors">
               <img src="https://www.svgrepo.com/show/475656/google-color.svg" alt="Google" className="w-5 h-5" />
-              Continue with Google
+              Sign up with Google
             </button>
             
             <div className="relative flex py-4 items-center">
@@ -69,6 +65,16 @@ export default function Login() {
             <form className="space-y-4" onSubmit={handleAuth}>
               <div className="relative">
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                  <User className="h-5 w-5 text-white/50" />
+                </div>
+                <input 
+                  type="text" 
+                  className="bg-white/5 border border-white/10 text-white outline-none rounded-xl block w-full pl-10 p-3.5 focus:border-[#E7C36A] transition-colors placeholder:text-white/30" 
+                  placeholder="Full Name" 
+                />
+              </div>
+              <div className="relative">
+                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                   <Mail className="h-5 w-5 text-white/50" />
                 </div>
                 <input 
@@ -78,13 +84,13 @@ export default function Login() {
                 />
               </div>
               <button className="w-full bg-[#E7C36A] hover:bg-[#d4b360] text-black font-bold py-3.5 rounded-xl transition-colors flex justify-center items-center gap-2">
-                <Lock size={18} /> Secure Login
+                <Lock size={18} /> Secure Sign Up
               </button>
             </form>
           </div>
           
           <p className="text-center text-sm text-white/50 mt-8">
-            Don't have an account? <Link to="/register" className="text-[#E7C36A] hover:underline">Sign up</Link>
+            Already have an account? <Link to="/login" className="text-[#E7C36A] hover:underline">Sign in</Link>
           </p>
         </div>
       </div>
