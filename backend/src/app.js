@@ -74,6 +74,10 @@ app.get('/', (req, res) => {
     res.send("Hello, World! Welcome to Astra Astrology API.");
 });
 
+app.get('/suvesh', (req, res) => {
+    res.send("i am suvesh");
+});
+
 // Error Handling
 app.use(notFound);
 app.use(errorHandler);

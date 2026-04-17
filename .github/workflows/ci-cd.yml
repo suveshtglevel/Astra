@@ -1,4 +1,4 @@
-name: Astra CI/CD (EC2 Deploy)
+name: Astra Backend CI/CD (EC2 Deploy)
 
 on:
   push:
@@ -27,40 +27,15 @@ jobs:
         run: npm ci
 
       - name: Run tests
-        run: npm test || echo "No tests"
+        run: npm test || echo "No tests found"
 
       - name: Build backend
         run: npm run build || echo "No build step"
 
 
-  # 🔹 Frontend CI
-  frontend:
-    needs: backend
-    runs-on: ubuntu-latest
-
-    defaults:
-      run:
-        working-directory: frontend
-
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: 20
-
-      - name: Install dependencies
-        run: npm ci
-
-      - name: Build frontend
-        run: npm run build
-
-
   # 🔹 Deploy to EC2
   deploy:
-    needs: [backend, frontend]
+    needs: backend
     runs-on: ubuntu-latest
 
     steps:
@@ -71,22 +46,21 @@ jobs:
           username: ${{ secrets.SSH_USER }}
           key: ${{ secrets.SSH_KEY }}
           script: |
-            echo "🚀 Starting deployment..."
+            echo "🚀 Starting backend deployment..."
 
             cd Astra || git clone https://github.com/suveshtglevel/Astra.git
             cd Astra
 
-            echo "📥 Pull latest code"
+            echo "📥 Pulling latest code"
             git pull origin main
 
-            echo "📦 Installing backend deps"
+            echo "📦 Installing backend dependencies"
             cd backend
             npm install
 
-            echo "🔄 Restarting backend"
+            echo "🔄 Restarting backend with PM2"
             pm2 restart astra-backend || pm2 start server.js --name astra-backend
 
-            echo "💾 Saving PM2"
             pm2 save
 
-            echo "✅ Deployment done!"
+            echo "✅ Backend deployment completed!"
