@@ -1,22 +1,58 @@
-import React from 'react';
-import { Mail, Lock, Sparkles, CheckCircle2, User } from 'lucide-react';
+import React, { useState } from 'react';
+import { Mail, Lock, Sparkles, CheckCircle2, User, Loader2 } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
 import useSEO from '../hooks/useSEO';
+import { useAuth } from '../AuthContext';
 
 export default function Register() {
   useSEO('Register');
   const navigate = useNavigate();
+  const { register, login } = useAuth();
 
-  const handleAuth = (e) => {
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    password: '',
+    rashi: '',
+    planet: '',
+    element: ''
+  });
+  const [error, setError] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const handleAuth = async (e) => {
     e.preventDefault();
-    navigate('/dashboard');
+    setError('');
+    setIsLoading(true);
+
+    try {
+      const { name, email, password, rashi, planet, element } = formData;
+      await register({
+        name,
+        email,
+        password,
+        astrologyData: { rashi, planet, element }
+      });
+      
+      // Automatically login after registration
+      await login({ email, password });
+      navigate('/dashboard');
+    } catch (err) {
+      setError(err.message || 'Registration failed');
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
     <div className="min-h-[85vh] flex items-center justify-center px-6 py-20 relative z-10 pt-32">
       <div className="max-w-4xl w-full grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
         
-        {/* Left Side: Business Model / Pricing Pitch */}
+        {/* Left Side: Pitch */}
         <div className="flex flex-col gap-6 order-2 md:order-1">
           <div className="mb-4">
             <Sparkles className="text-[#E7C36A] h-8 w-8 mb-4" />
@@ -37,13 +73,8 @@ export default function Register() {
                 <CheckCircle2 size={18} className="text-[#E7C36A] shrink-0" />
                 7 Questions Free upon Login
               </li>
-              <li className="flex items-start gap-3 text-sm text-white/70">
-                <CheckCircle2 size={18} className="text-[#E7C36A] shrink-0" />
-                25 Free Questions / Month
-              </li>
             </ul>
           </div>
-
         </div>
 
         {/* Right Side: Register Form */}
@@ -51,16 +82,11 @@ export default function Register() {
           <h2 className="text-2xl font-serif text-white text-center mb-8">Create an Account</h2>
           
           <div className="space-y-4">
-            <button type="button" onClick={handleAuth} className="w-full flex items-center justify-center gap-3 bg-white text-black font-medium py-3.5 rounded-xl hover:bg-gray-100 transition-colors">
-              <img src="https://www.svgrepo.com/show/475656/google-color.svg" alt="Google" className="w-5 h-5" />
-              Sign up with Google
-            </button>
-            
-            <div className="relative flex py-4 items-center">
-              <div className="flex-grow border-t border-white/10"></div>
-              <span className="flex-shrink-0 mx-4 text-white/50 text-xs">or using email</span>
-              <div className="flex-grow border-t border-white/10"></div>
-            </div>
+            {error && (
+              <div className="bg-red-500/10 border border-red-500/20 text-red-500 text-sm p-3 rounded-xl text-center">
+                {error}
+              </div>
+            )}
 
             <form className="space-y-4" onSubmit={handleAuth}>
               <div className="relative">
@@ -69,8 +95,12 @@ export default function Register() {
                 </div>
                 <input 
                   type="text" 
+                  name="name"
+                  value={formData.name}
+                  onChange={handleChange}
                   className="bg-white/5 border border-white/10 text-white outline-none rounded-xl block w-full pl-10 p-3.5 focus:border-[#E7C36A] transition-colors placeholder:text-white/30" 
                   placeholder="Full Name" 
+                  required
                 />
               </div>
               <div className="relative">
@@ -79,12 +109,64 @@ export default function Register() {
                 </div>
                 <input 
                   type="email" 
+                  name="email"
+                  value={formData.email}
+                  onChange={handleChange}
                   className="bg-white/5 border border-white/10 text-white outline-none rounded-xl block w-full pl-10 p-3.5 focus:border-[#E7C36A] transition-colors placeholder:text-white/30" 
                   placeholder="name@email.com" 
+                  required
                 />
               </div>
-              <button className="w-full bg-[#E7C36A] hover:bg-[#d4b360] text-black font-bold py-3.5 rounded-xl transition-colors flex justify-center items-center gap-2">
-                <Lock size={18} /> Secure Sign Up
+              <div className="relative">
+                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                  <Lock className="h-5 w-5 text-white/50" />
+                </div>
+                <input 
+                  type="password" 
+                  name="password"
+                  value={formData.password}
+                  onChange={handleChange}
+                  className="bg-white/5 border border-white/10 text-white outline-none rounded-xl block w-full pl-10 p-3.5 focus:border-[#E7C36A] transition-colors placeholder:text-white/30" 
+                  placeholder="Password (min 6 chars)" 
+                  required
+                  minLength={6}
+                />
+              </div>
+
+              <div className="grid grid-cols-3 gap-2">
+                <input 
+                  type="text" 
+                  name="rashi"
+                  value={formData.rashi}
+                  onChange={handleChange}
+                  className="bg-white/5 border border-white/10 text-white text-xs outline-none rounded-xl p-3 focus:border-[#E7C36A] transition-colors placeholder:text-white/30" 
+                  placeholder="Rashi" 
+                />
+                <input 
+                  type="text" 
+                  name="planet"
+                  value={formData.planet}
+                  onChange={handleChange}
+                  className="bg-white/5 border border-white/10 text-white text-xs outline-none rounded-xl p-3 focus:border-[#E7C36A] transition-colors placeholder:text-white/30" 
+                  placeholder="Planet" 
+                />
+                <input 
+                  type="text" 
+                  name="element"
+                  value={formData.element}
+                  onChange={handleChange}
+                  className="bg-white/5 border border-white/10 text-white text-xs outline-none rounded-xl p-3 focus:border-[#E7C36A] transition-colors placeholder:text-white/30" 
+                  placeholder="Element" 
+                />
+              </div>
+
+              <button 
+                type="submit"
+                disabled={isLoading}
+                className="w-full bg-[#E7C36A] hover:bg-[#d4b360] text-black font-bold py-3.5 rounded-xl transition-colors flex justify-center items-center gap-2 disabled:opacity-50"
+              >
+                {isLoading ? <Loader2 className="animate-spin" size={18} /> : <Sparkles size={18} />} 
+                {isLoading ? 'Creating Account...' : 'Secure Sign Up'}
               </button>
             </form>
           </div>

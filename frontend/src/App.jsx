@@ -27,6 +27,7 @@ import CustomCursor from './components/ui/CustomCursor';
 import PageTransition from './components/ui/PageTransition';
 
 import AppBootLoader from './components/ui/AppBootLoader';
+import { AuthProvider } from './AuthContext';
 
 function AppContent() {
   const location = useLocation();
@@ -69,8 +70,10 @@ function App() {
 
   return (
     <Router>
-      {!hasBooted && <AppBootLoader onComplete={() => setHasBooted(true)} />}
-      <AppContent />
+      <AuthProvider>
+        {!hasBooted && <AppBootLoader onComplete={() => setHasBooted(true)} />}
+        <AppContent />
+      </AuthProvider>
     </Router>
   );
 }

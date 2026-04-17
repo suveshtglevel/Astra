@@ -1,15 +1,32 @@
-import React from 'react';
-import { Mail, Lock, Sparkles, CheckCircle2 } from 'lucide-react';
+import React, { useState } from 'react';
+import { Mail, Lock, Sparkles, CheckCircle2, Loader2 } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
 import useSEO from '../hooks/useSEO';
+import { useAuth } from '../AuthContext';
 
 export default function Login() {
   useSEO('Login');
   const navigate = useNavigate();
+  const { login } = useAuth();
+  
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
-  const handleAuth = (e) => {
+  const handleAuth = async (e) => {
     e.preventDefault();
-    navigate('/dashboard');
+    setError('');
+    setIsLoading(true);
+    
+    try {
+      await login({ email, password });
+      navigate('/dashboard');
+    } catch (err) {
+      setError(err.message || 'Failed to login');
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -55,7 +72,7 @@ export default function Login() {
           <h2 className="text-2xl font-serif text-white text-center mb-8">Login to Klue</h2>
           
           <div className="space-y-4">
-            <button type="button" onClick={handleAuth} className="w-full flex items-center justify-center gap-3 bg-white text-black font-medium py-3.5 rounded-xl hover:bg-gray-100 transition-colors">
+            <button type="button" className="w-full flex items-center justify-center gap-3 bg-white text-black font-medium py-3.5 rounded-xl hover:bg-gray-100 transition-colors">
               <img src="https://www.svgrepo.com/show/475656/google-color.svg" alt="Google" className="w-5 h-5" />
               Continue with Google
             </button>
@@ -66,6 +83,12 @@ export default function Login() {
               <div className="flex-grow border-t border-white/10"></div>
             </div>
 
+            {error && (
+              <div className="bg-red-500/10 border border-red-500/20 text-red-500 text-sm p-3 rounded-xl text-center">
+                {error}
+              </div>
+            )}
+
             <form className="space-y-4" onSubmit={handleAuth}>
               <div className="relative">
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
@@ -73,12 +96,33 @@ export default function Login() {
                 </div>
                 <input 
                   type="email" 
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
                   className="bg-white/5 border border-white/10 text-white outline-none rounded-xl block w-full pl-10 p-3.5 focus:border-[#E7C36A] transition-colors placeholder:text-white/30" 
                   placeholder="name@email.com" 
+                  required
                 />
               </div>
-              <button className="w-full bg-[#E7C36A] hover:bg-[#d4b360] text-black font-bold py-3.5 rounded-xl transition-colors flex justify-center items-center gap-2">
-                <Lock size={18} /> Secure Login
+              <div className="relative">
+                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                  <Lock className="h-5 w-5 text-white/50" />
+                </div>
+                <input 
+                  type="password" 
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  className="bg-white/5 border border-white/10 text-white outline-none rounded-xl block w-full pl-10 p-3.5 focus:border-[#E7C36A] transition-colors placeholder:text-white/30" 
+                  placeholder="Your Password" 
+                  required
+                />
+              </div>
+              <button 
+                type="submit"
+                disabled={isLoading}
+                className="w-full bg-[#E7C36A] hover:bg-[#d4b360] text-black font-bold py-3.5 rounded-xl transition-colors flex justify-center items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                {isLoading ? <Loader2 className="animate-spin" size={18} /> : <Lock size={18} />} 
+                {isLoading ? 'Authenticating...' : 'Secure Login'}
               </button>
             </form>
           </div>
