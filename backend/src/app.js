@@ -69,7 +69,6 @@ app.use('/api/auth', authRoutes);
 app.use('/api/chat', chatRoutes);
 
 // Root route (Hello World for CI/CD test)
-// Root route (Hello World for CI/CD test)
 app.get('/', (req, res) => {
     res.send("Hello, World! Welcome to Astra Astrology API.");
 });

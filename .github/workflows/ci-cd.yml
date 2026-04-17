@@ -46,21 +46,30 @@ jobs:
           username: ${{ secrets.SSH_USER }}
           key: ${{ secrets.SSH_KEY }}
           script: |
-            echo "🚀 Starting backend deployment..."
+            set -e
 
-            cd Astra || git clone https://github.com/suveshtglevel/Astra.git
-            cd Astra
+            echo "🚀 Starting deployment..."
+
+            # 🔥 FIX 1: always go to correct folder
+            cd ~/Astra || git clone https://github.com/suveshtglevel/Astra.git ~/Astra
+            cd ~/Astra
 
             echo "📥 Pulling latest code"
+            git reset --hard
             git pull origin main
 
-            echo "📦 Installing backend dependencies"
+            echo "📦 Installing dependencies"
             cd backend
             npm install
 
-            echo "🔄 Restarting backend with PM2"
-            pm2 restart astra-backend || pm2 start server.js --name astra-backend
+            echo "🔄 Restarting PM2 safely"
+
+            # 🔥 FIX 2: avoid duplicate processes
+            pm2 delete astra-backend || true
+
+            # 🔥 FIX 3: use correct entry file
+            pm2 start src/server.js --name astra-backend
 
             pm2 save
 
-            echo "✅ Backend deployment completed!"
+            echo "✅ Deployment successful!"
