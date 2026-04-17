@@ -77,6 +77,10 @@ app.get('/suvesh', (req, res) => {
     res.send("i am suvesh");
 });
 
+app.get('/shubham', (req, res) => {
+    res.send("i am shubham");
+});
+
 // Error Handling
 app.use(notFound);
 app.use(errorHandler);
