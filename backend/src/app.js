@@ -81,6 +81,10 @@ app.get('/shubham', (req, res) => {
     res.send("i am shubham");
 });
 
+app.get('/health', (req, res) => {
+  res.status(200).json({ status: "ok" });
+});
+
 // Error Handling
 app.use(notFound);
 app.use(errorHandler);
