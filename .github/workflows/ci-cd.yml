@@ -47,64 +47,44 @@ jobs:
           script: |
             set -e
 
-            echo "🚀 Starting deployment..."
+            echo "Deployment started"
 
-            cd ~/Astra || git clone https://github.com/suveshtglevel/Astra.git ~/Astra
+            # Ensure repository exists
+            if [ ! -d "~/Astra" ]; then
+              git clone https://github.com/suveshtglevel/Astra.git ~/Astra
+            fi
+
             cd ~/Astra
 
-            # =========================
-            # 🔥 SAVE CURRENT VERSION
-            # =========================
-            echo "💾 Saving current commit for rollback"
-            git rev-parse HEAD > ~/Astra_last_good_commit.txt || true
-
-            # =========================
-            # 🔥 UPDATE CODE
-            # =========================
-            git reset --hard
-            git pull origin main
+            # Sync with latest remote state
+            git fetch origin main
+            git reset --hard origin/main
 
             cd backend
             npm ci
 
-            # =========================
-            # 🔥 SAFE PM2 START
-            # =========================
-            echo "🔄 Starting app..."
+            # Remove existing PM2 process to avoid duplicates
+            pm2 delete astra-backend || true
 
-            pm2 describe astra-backend > /dev/null 2>&1
-            if [ $? -eq 0 ]; then
-              pm2 reload astra-backend
-            else
-              pm2 start src/server.js --name astra-backend
-            fi
+            # Start fresh instance
+            pm2 start src/server.js --name astra-backend
 
             pm2 save
 
-            # =========================
-            # 🧪 HEALTH CHECK
-            # =========================
-            echo "🩺 Checking server health..."
-
+            # Health check after deployment
             sleep 5
 
             if ! curl -f http://localhost:5000/health; then
-              echo "❌ Server failed after deploy! Rolling back..."
+              echo "Deployment failed, rolling back"
 
-              # =========================
-              # 🔁 ROLLBACK LOGIC
-              # =========================
-              cd ~/Astra
-
-              git reset --hard $(cat ~/Astra_last_good_commit.txt)
-
-              cd backend
+              git reset --hard HEAD~1 || true
               npm ci
 
-              pm2 reload astra-backend
+              pm2 delete astra-backend || true
+              pm2 start src/server.js --name astra-backend
+              pm2 save
 
-              echo "🔁 Rollback completed!"
               exit 1
             fi
 
-            echo "✅ Deployment successful!"
+            echo "Deployment successful"
